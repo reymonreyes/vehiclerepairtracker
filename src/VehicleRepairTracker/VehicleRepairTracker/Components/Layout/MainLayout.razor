@@ -1,0 +1,39 @@
+﻿@inherits LayoutComponentBase
+<div>
+    <MudThemeProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+    <MudLayout>
+        <MudContainer>
+            <MudAppBar Fixed="false" Style="@($"background: {Colors.LightBlue.Accent4}")" Elevation="0">
+                <MudText Class="mr-2">
+                    <b>Vehicle Repair Tracker</b>
+                </MudText>                
+                <MudButton Href="#" Style="@($"color:{Colors.LightBlue.Lighten5}")" Class="mx-1"><MudText>Home</MudText></MudButton>
+                <MudButton Href="repairs" Style="@($"color:{Colors.LightBlue.Lighten5}")" Class="mx-1"><MudText>Repairs</MudText></MudButton>
+                <MudButton Href="vehicles" Style="@($"color:{Colors.LightBlue.Lighten5}")" Class="mx-1"><MudText>Vehicles</MudText></MudButton>
+                <MudButton Href="shops" Style="@($"color:{Colors.LightBlue.Lighten5}")" Class="mx-1"><MudText>Shops</MudText></MudButton>
+                <MudMenu AnchorOrigin="Origin.BottomLeft" ActivationEvent="@MouseEvent.LeftClick">
+                    <ActivatorContent>
+                        <MudButton Variant="Variant.Text" Style="@($"color:{Colors.LightBlue.Lighten5}")" Class="" EndIcon="@Icons.Material.Filled.KeyboardArrowDown" IconColor="Color.Default">
+                            <MudText>Settings</MudText>
+                        </MudButton>
+                    </ActivatorContent>
+                    <ChildContent>                        
+                        <MudMenuItem Href="manufacturers">
+                            <MudText>Manufacturers</MudText>
+                        </MudMenuItem>
+                    </ChildContent>
+                </MudMenu>
+            </MudAppBar>
+            <MudMainContent Class="pt-2">
+                @Body
+            </MudMainContent>
+        </MudContainer>
+    </MudLayout>
+</div>
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

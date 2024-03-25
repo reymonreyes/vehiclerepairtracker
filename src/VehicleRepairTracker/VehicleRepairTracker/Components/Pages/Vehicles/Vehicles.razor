@@ -1,0 +1,54 @@
+﻿@page "/vehicles"
+
+<PageTitle>Vehicles</PageTitle>
+<MudPaper Elevation="0" Class="mb-2" Outlined="true">
+    <MudToolBar>
+        <MudText Class="mr-2"><h3>Vehicles</h3></MudText>
+        <MudButton Href="/vehicles/0" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Add</MudButton>
+        <MudTextField T="string" @bind-Value="_searchQuery" Label="Search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search"
+                      AdornmentColor="Color.Primary" Margin="Margin.Dense" Class="ml-4" OnAdornmentClick="SearchShops" />
+        <MudSpacer />
+        <MudPagination Rectangular="true" Variant="Variant.Text" Count="_totalPages" SelectedChanged="PageChanged" />
+    </MudToolBar>
+</MudPaper>
+
+<MudPaper Elevation="1">
+    <MudSimpleTable Bordered="true" Hover="true" Dense="true">
+        <colgroup>
+            <col width="3%" />
+            <col />
+            <col />
+            <col />
+            <col />
+        </colgroup>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _vehicles)
+            {
+                <tr>
+                    <td>
+                        <MudIconButton OnClick="@(() => Delete(item))" Icon="@Icons.Material.Filled.Close" Color="Color.Error"></MudIconButton>
+                    </td>
+                    <td>
+                        <MudLink Href="@($"/vehicles/{@item.Id}")">
+                            @item.Name
+                        </MudLink>
+                    </td>
+                    <td style="text-align:right;">@item.Value.ToString("C")</td>
+                    <td>@item.ManufacturerName</td>
+                    <td>@item.Model</td>
+                    <td>@item.Year</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+</MudPaper>

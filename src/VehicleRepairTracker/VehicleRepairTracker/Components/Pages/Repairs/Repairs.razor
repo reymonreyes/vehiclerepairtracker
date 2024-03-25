@@ -1,0 +1,58 @@
+﻿@page "/repairs"
+
+<PageTitle>Repairs</PageTitle>
+<MudPaper Elevation="0" Class="mb-2" Outlined="true">
+    <MudToolBar>
+        <MudStack Row="true">
+            <MudText Class="align-self-center"><h3>Repairs</h3></MudText>
+            <MudButton Href="/repairs/0" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2 align-self-center">Add</MudButton>
+            <MudDateRangePicker Label="Filter by date range" Clearable="true" DateRangeChanged="FilterByDateRange" Variant="Variant.Outlined" Margin="Margin.Dense" />
+            <MudAutocomplete Label="Vehicle" T="KeyValuePair<int,string>" SearchFunc="@SearchVehicles" ToStringFunc="@(x => x.Value)" ValueChanged="FilterByVehicle"
+                             CoerceValue="true" Variant="Variant.Outlined" Margin="Margin.Dense" />
+        </MudStack>
+        <MudSpacer />
+        <MudPagination Rectangular="true" Variant="Variant.Text" Count="_totalPages" SelectedChanged="PageChanged" />
+    </MudToolBar>
+</MudPaper>
+
+<MudPaper Elevation="1">
+    <MudSimpleTable Bordered="true" Hover="true" Dense="true">
+        <colgroup>
+            <col width="1%" />
+            <col width="10%" />
+            <col width="15%" />
+            <col />
+            <col width="20%" />
+            <col />
+        </colgroup>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Date</th>
+                <th>Vehicle</th>
+                <th>Amount</th>
+                <th>Shop</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _repairs)
+            {
+                <tr>
+                    <td>
+                        <MudIconButton OnClick="@(() => Delete(item))" Icon="@Icons.Material.Filled.Close" Color="Color.Error"></MudIconButton>
+                    </td>
+                    <td>
+                        <MudLink Href="@($"/repairs/{@item.Id}")">
+                            @item.Date.Value.ToString("yyyy-MM-dd")
+                        </MudLink>
+                    </td>
+                    <td>@item.Vehicle.Value</td>
+                    <td>@item.Amount</td>
+                    <td>@item.Shop.Value</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+</MudPaper>

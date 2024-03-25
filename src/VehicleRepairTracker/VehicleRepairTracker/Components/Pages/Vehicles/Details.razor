@@ -1,0 +1,46 @@
+﻿@page "/vehicles/{id:int}"
+
+<PageTitle>Vehicle Details</PageTitle>
+@if (_model is not null)
+{
+    <MudPaper Elevation="0" Class="mb-6" Outlined="true">
+        <MudToolBar>
+            <MudText Class="mr-2"><h3>Vehicle Details</h3></MudText>
+            <MudButton Href="/vehicles" Variant="Variant.Filled" Color="Color.Secondary" Class="mx-2">Back</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mx-2" OnClick="SaveAsync">Save</MudButton>
+            <MudSpacer />
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Class="mx-2" OnClick="DeleteAsync">Delete</MudButton>
+        </MudToolBar>
+    </MudPaper>
+    <MudForm @ref="_form" @bind-IsValid="_isFormValid">
+        <MudGrid>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudTextField T="string" @bind-Value="_model.Name" Label="Name" Variant="Variant.Outlined" Required="true" Immediate="true"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudNumericField @bind-Value="_model.Value" Label="Value" Format="N2" Required="true" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="4" lg="4">
+                <MudSelect @bind-Value="_model.ManufacturerId" Label="Manufacturer" Variant="Variant.Outlined">
+                    @foreach (var item in _manufacturers)
+                    {
+                        <MudSelectItem Value="@item.Key">@item.Value</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="4" md="4" lg="4">
+                <MudTextField T="string" @bind-Value="_model.Model" Label="Model" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="4" md="4" lg="4">
+                <MudTextField T="string" @bind-Value="_model.Year" Label="Year" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="12" lg="12">
+                <MudTextField T="string" @bind-Value="_model.Description" Label="Description" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+}
+else
+{
+    <MudAlert Severity="Severity.Error">Vehicle not found.</MudAlert>
+}

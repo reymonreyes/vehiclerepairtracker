@@ -1,0 +1,51 @@
+﻿@page "/shops"
+
+<PageTitle>Shops</PageTitle>
+<MudPaper Elevation="0" Class="mb-2" Outlined="true">
+    <MudToolBar>
+        <MudText Class="mr-2"><h3>Shops</h3></MudText>
+        <MudButton Href="/shops/0" Variant="Variant.Filled" Color="Color.Primary" Class="mx-2">Add</MudButton>
+        <MudTextField T="string" @bind-Value="_searchQuery" Label="Search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search"
+                      AdornmentColor="Color.Primary" Margin="Margin.Dense" Class="ml-4" OnAdornmentClick="SearchShops" />
+        <MudSpacer />
+        <MudPagination Rectangular="true" Variant="Variant.Text" Count="_totalPages" SelectedChanged="PageChanged" />
+    </MudToolBar>
+</MudPaper>
+<MudPaper Elevation="1">
+    <MudSimpleTable Bordered="true" Hover="true" Dense="true">
+        <colgroup>
+            <col width="3%" />
+            <col />
+            <col />
+            <col />
+            <col />
+        </colgroup>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Shop Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Contact Person</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _shops)
+            {
+                <tr>
+                    <td>
+                        <MudIconButton OnClick="@(() => Delete(item))" Icon="@Icons.Material.Filled.Close" Color="Color.Error"></MudIconButton>
+                    </td>
+                    <td>
+                        <MudLink Href="@($"/shops/{@item.Id}")">
+                            @item.Name
+                        </MudLink>
+                    </td>
+                    <td>@item.Address</td>
+                    <td>@item.Phone</td>
+                    <td>@item.ContactPerson</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+</MudPaper>

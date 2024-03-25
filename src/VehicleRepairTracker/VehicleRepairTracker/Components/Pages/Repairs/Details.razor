@@ -1,0 +1,42 @@
+﻿@page "/repairs/{id:int}"
+
+<PageTitle>Repair Details</PageTitle>
+
+@if (_model is not null)
+{
+    <MudPaper Elevation="0" Class="mb-6" Outlined="true">
+        <MudToolBar>
+            <MudText Class="mr-2"><h3>Repair Details</h3></MudText>
+            <MudButton Href="/repairs" Variant="Variant.Filled" Color="Color.Secondary" Class="mx-2">Back</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mx-2" OnClick="SaveAsync">Save</MudButton>
+            <MudSpacer />
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Class="mx-2" OnClick="DeleteAsync">Delete</MudButton>
+        </MudToolBar>
+    </MudPaper>
+    <MudForm @ref="_form" Model="_model" @bind-IsValid="_isFormValid">
+        <MudGrid>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudDatePicker @bind-Date="_model.Date" Label="Date(yyyy-MM-dd)" Editable="true" Mask="@(new DateMask("yyyy-MM-dd"))" DateFormat="yyyy-MM-dd"
+                               Placeholder="Date" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudAutocomplete Label="Vehicle" @bind-Value="_model.Vehicle" SearchFunc="@SearchVehicles" ToStringFunc="@(x => x.Value)" Variant="Variant.Outlined"
+                                 Required="true" Validation="Validate" />
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudNumericField @bind-Value="_model.Amount" Label="Amount" Format="N2" Required="true" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudAutocomplete Label="Shop" @bind-Value="_model.Shop" SearchFunc="@SearchShops" ToStringFunc="@(x => x.Value)" Variant="Variant.Outlined"
+                                 Required="true" Immediate="true" Validation="Validate" />
+            </MudItem>
+            <MudItem xs="12" sm="12" md="12" lg="12">
+                <MudTextField @bind-Value="_model.Description" Label="Description" Variant="Variant.Outlined" Lines="3" Required="true"></MudTextField>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+}
+else
+{
+    <MudAlert Severity="Severity.Error">Repair Details not found.</MudAlert>
+}

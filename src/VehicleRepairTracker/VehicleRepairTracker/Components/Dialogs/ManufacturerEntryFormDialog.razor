@@ -1,0 +1,66 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using VehicleRepairTracker.Data
+@using VehicleRepairTracker.Entities
+@inject IDbContextFactory<DataContext> DataContext
+
+<MudForm @ref="_form" @bind-IsValid="@_isFormValid">
+    <MudDialog>
+        <DialogContent>
+            <MudTextField @bind-Value="Manufacturer.Name" Label="Name" Variant="Variant.Outlined" Required="true" Immediate="true"></MudTextField>
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="Cancel">Cancel</MudButton>
+            <MudButton Color="Color.Primary" OnClick="SaveManufacturer" Disabled="@(!_isFormValid)">
+                @if (_saving)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                    <MudText Class="ms-2">Saving</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+</MudForm>
+
+@code {
+    private string _manufacturerName;
+    private bool _saving, _isFormValid = true;
+    private MudForm _form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _form.Validate();
+    }
+
+    [Parameter]
+    public Manufacturer Manufacturer { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void SaveManufacturer()
+    {
+        _saving = true;
+
+        try
+        {
+            using var dbContext = DataContext.CreateDbContext();
+            dbContext.Manufacturers.Update(Manufacturer);
+            dbContext.SaveChanges();
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+        catch (Exception exc)
+        {
+            MudDialog.Close(DialogResult.Ok(false));
+        }
+        finally
+        {
+            _saving = false;
+        }
+
+    }
+}

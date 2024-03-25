@@ -1,0 +1,35 @@
+﻿@page "/shops/{id:int}"
+
+<PageTitle>Shop Details</PageTitle>
+@if (_model is not null)
+{
+    <MudPaper Elevation="0" Class="mb-6" Outlined="true">
+        <MudToolBar>
+            <MudText Class="mr-2"><h3>Shop Details</h3></MudText>
+            <MudButton Href="/shops" Variant="Variant.Filled" Color="Color.Secondary" Class="mx-2">Back</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mx-2" OnClick="SaveAsync">Save</MudButton>
+            <MudSpacer />
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Class="mx-2" OnClick="DeleteAsync">Delete</MudButton>
+        </MudToolBar>
+    </MudPaper>
+    <MudForm @ref="_form" @bind-IsValid="_isFormValid">
+        <MudGrid>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudTextField T="string" @bind-Value="_model.Name" Label="Shop Name" Variant="Variant.Outlined" Required="true" Immediate="true"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudTextField T="string" @bind-Value="_model.Address" Label="Address" Variant="Variant.Outlined" Required="true" Immediate="true"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudTextField T="string" @bind-Value="_model.Phone" Label="Phone" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="6">
+                <MudTextField T="string" @bind-Value="_model.ContactPerson" Label="Contact Person" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+}
+else
+{
+    <MudAlert Severity="Severity.Error">Shop not found.</MudAlert>
+}

@@ -1,0 +1,41 @@
+﻿@page "/"
+
+<PageTitle>Vehicle Repair Tracker</PageTitle>
+<MudPaper Elevation="0" Outlined="false">
+    <MudGrid>
+        <MudItem sm="6" md="6" lg="6" xl="6" Class="pa-5">
+            <MudPaper Elevation="1">
+                <MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" ChartOptions="@Options" />
+            </MudPaper>
+        </MudItem>
+        <MudItem sm="6" md="6" lg="6" xl="6" Class="pa-5">
+            <MudPaper Elevation="1">
+                <MudText Typo="Typo.h6" Class="pa-2 mb-1">Top 5 Vehicles for the last 7 days</MudText>
+                <MudSimpleTable Bordered="true" Hover="true">
+                    <colgroup>
+                        <col />
+                        <col />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Vehicle</th>
+                            <th>Value</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in _repairCostsByVehicle)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td style="text-align: right;">@item.Value.ToString("C")</td>
+                                <td style="text-align: right;">@item.TotalCost.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </MudSimpleTable>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
